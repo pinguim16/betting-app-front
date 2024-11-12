@@ -1,0 +1,38 @@
+<p-card header="Editar Categoria">
+    <form (ngSubmit)="updateCategory()" #categoryForm="ngForm">
+      <div class="p-fluid">
+        <!-- Nome -->
+        <div class="p-field">
+          <label for="name">Nome</label>
+          <input
+            id="name"
+            type="text"
+            pInputText
+            [(ngModel)]="category.name"
+            name="name"
+            required
+          />
+        </div>
+  
+        <!-- Botões -->
+        <div class="p-field">
+          <button
+            type="submit"
+            pButton
+            label="Atualizar"
+            icon="pi pi-check"
+            class="p-button-success"
+          ></button>
+          <button
+            type="button"
+            pButton
+            label="Cancelar"
+            icon="pi pi-times"
+            class="p-button-secondary"
+            (click)="goBack()"
+          ></button>
+        </div>
+      </div>
+    </form>
+  </p-card>
+  

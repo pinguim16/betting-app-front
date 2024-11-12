@@ -1,0 +1,144 @@
+<!-- src/app/components/dashboard/dashboard.component.html -->
+<div class="dashboard-container">
+
+  <!-- Indicadores de Métricas -->
+  <div class="metrics-grid">
+    <p-card class="metric-card">
+      <ng-template pTemplate="header">
+        Saldo Atual do Bankroll
+      </ng-template>
+      <div class="metric-value">
+        {{ metrics.totalBankroll | currency:'BRL' }}
+      </div>
+    </p-card>
+
+    <p-card class="metric-card">
+      <ng-template pTemplate="header">
+        Lucro/Prejuízo Total
+      </ng-template>
+      <div class="metric-value" [ngClass]="getProfitClass()">
+        {{ metrics.totalProfitLoss | currency:'BRL' }}
+      </div>
+    </p-card>
+
+    <p-card class="metric-card">
+      <ng-template pTemplate="header">
+        ROI (Return on Investment)
+      </ng-template>
+      <div class="metric-value">
+        {{ metrics.roi | percent:'1.2-2' }}
+      </div>
+    </p-card>
+
+    <p-card class="metric-card">
+      <ng-template pTemplate="header">
+        Yield
+      </ng-template>
+      <div class="metric-value">
+        {{ metrics.yield | percent:'1.2-2' }}
+      </div>
+    </p-card>
+
+    <p-card class="metric-card">
+      <ng-template pTemplate="header">
+        Taxa de Sucesso
+      </ng-template>
+      <div class="metric-value">
+        {{ metrics.successRate | percent:'1.2-2' }}
+      </div>
+    </p-card>
+
+    <p-card class="metric-card">
+      <ng-template pTemplate="header">
+        Média de Odds
+      </ng-template>
+      <div class="metric-value">
+        {{ metrics.averageOdds | number:'1.2-2' }}
+      </div>
+    </p-card>
+
+    <p-card class="metric-card">
+      <ng-template pTemplate="header">
+        Média de Stake
+      </ng-template>
+      <div class="metric-value">
+        {{ metrics.averageStake | currency:'BRL' }}
+      </div>
+    </p-card>
+  </div>
+
+  <!-- Seção Principal: Gráfico de Evolução do Bankroll -->
+  <div class="bankroll-chart-section">
+    <p-card class="chart-card" *ngIf="bankrollEvolutionChartData">
+      <ng-template pTemplate="header">
+        Gráfico de Evolução do Bankroll
+      </ng-template>
+      <div class="chart-container">
+        <canvas baseChart [datasets]="bankrollEvolutionChartData.datasets" [labels]="bankrollEvolutionChartData.labels"
+          [options]="bankrollEvolutionChartOptions" [type]="bankrollEvolutionChartType">
+        </canvas>
+      </div>
+    </p-card>
+  </div>
+
+  <!-- Seção Secundária: Outros Gráficos -->
+  <div class="other-charts-grid">
+    <!-- Distribuição de Apostas por Esporte -->
+    <p-card class="chart-card" *ngIf="distributionSportChartData">
+      <ng-template pTemplate="header">
+        Distribuição de Apostas por Esporte
+      </ng-template>
+      <div class="chart-container">
+        <canvas baseChart [datasets]="distributionSportChartData.datasets" [labels]="distributionSportChartData.labels"
+          [options]="distributionSportChartOptions" [type]="distributionSportChartType">
+        </canvas>
+      </div>
+    </p-card>
+
+    <!-- Distribuição de Apostas por Tipster -->
+    <p-card class="chart-card" *ngIf="distributionTipsterChartData">
+      <ng-template pTemplate="header">
+        Distribuição de Apostas por Tipster
+      </ng-template>
+      <div class="chart-container">
+        <canvas baseChart [datasets]="distributionTipsterChartData.datasets"
+          [labels]="distributionTipsterChartData.labels" [options]="distributionTipsterChartOptions"
+          [type]="distributionTipsterChartType">
+        </canvas>
+      </div>
+    </p-card>
+
+    <!-- Distribuição de Apostas por Categoria -->
+    <p-card class="chart-card" *ngIf="distributionCategoryChartData">
+      <ng-template pTemplate="header">
+        Distribuição de Apostas por Categoria
+      </ng-template>
+      <div class="chart-container">
+        <canvas baseChart [datasets]="distributionCategoryChartData.datasets"
+          [labels]="distributionCategoryChartData.labels" [options]="distributionCategoryChartOptions"
+          [type]="distributionCategoryChartType">
+        </canvas>
+      </div>
+    </p-card>
+  </div>
+
+  <!-- Seção Secundária: Métricas por Tipster -->
+  <div class="tipsters-section">
+    <h2>Métricas por Tipster</h2>
+    <div class="tipsters-grid">
+      <p-card *ngFor="let tipster of tipstersMetrics" class="tipster-card">
+        <ng-template pTemplate="header">
+          {{ tipster.name }}
+        </ng-template>
+        <div class="tipster-metrics">
+          <p><strong>Lucro/Prejuízo Total:</strong> {{ tipster.totalProfitLoss | currency:'BRL' }}</p>
+          <p><strong>ROI (Return on Investment):</strong> {{ tipster.roi | percent:'1.2-2' }}</p>
+          <p><strong>Taxa de Sucesso:</strong> {{ tipster.successRate | percent:'1.2-2' }}</p>
+          <p><strong>Média de Odds:</strong> {{ tipster.averageOdds | number:'1.2-2' }}</p>
+          <p><strong>Média de Stake:</strong> {{ tipster.averageStake | currency:'BRL' }}</p>
+        </div>
+      </p-card>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,34 @@
+<p-button
+  label="Nova Casa de Apostas"
+  icon="pi pi-plus"
+  class="p-button-success mb-3"
+  (click)="createBookmaker()"
+></p-button>
+
+<p-table [value]="bookmakers">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>ID</th>
+      <th>Nome</th>
+      <th>Ações</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-bookmaker>
+    <tr>
+      <td>{{ bookmaker.id }}</td>
+      <td>{{ bookmaker.name }}</td>
+      <td>
+        <p-button
+          icon="pi pi-pencil"
+          class="p-button-rounded p-button-warning mr-2"
+          (click)="editBookmaker(bookmaker.id)"
+        ></p-button>
+        <p-button
+          icon="pi pi-trash"
+          class="p-button-rounded p-button-danger"
+          (click)="deleteBookmaker(bookmaker.id)"
+        ></p-button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

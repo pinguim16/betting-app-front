@@ -1,0 +1,52 @@
+<p-card header="Novo Bankroll">
+    <form (ngSubmit)="createBankroll()" #bankrollForm="ngForm">
+      <div class="p-fluid">
+        <!-- Nome -->
+        <div class="p-field">
+          <label for="name">Nome</label>
+          <input
+            id="name"
+            type="text"
+            pInputText
+            [(ngModel)]="bankroll.name"
+            name="name"
+            required
+          />
+        </div>
+  
+        <!-- Total -->
+        <div class="p-field">
+          <label for="total">Total</label>
+          <p-inputNumber
+            id="total"
+            [(ngModel)]="bankroll.total"
+            name="total"
+            mode="currency"
+            currency="USD"
+            [minFractionDigits]="2"
+            required
+          ></p-inputNumber>
+        </div>
+  
+        <!-- Botões -->
+        <div class="p-field">
+          <button
+            type="submit"
+            pButton
+            label="Salvar"
+            icon="pi pi-check"
+            class="p-button-success"
+          ></button>
+          <button
+            type="button"
+            pButton
+            label="Cancelar"
+            icon="pi pi-times"
+            class="p-button-secondary"
+            (click)="goBack()"
+          ></button>
+        </div>
+      </div>
+    </form>
+  </p-card>
+  

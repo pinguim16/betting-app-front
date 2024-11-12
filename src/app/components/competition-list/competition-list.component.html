@@ -1,0 +1,34 @@
+<p-button
+  label="Nova Competição"
+  icon="pi pi-plus"
+  class="p-button-success mb-3"
+  (click)="createCompetition()"
+></p-button>
+
+<p-table [value]="competitions">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>ID</th>
+      <th>Nome</th>
+      <th>Ações</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-competition>
+    <tr>
+      <td>{{ competition.id }}</td>
+      <td>{{ competition.name }}</td>
+      <td>
+        <p-button
+          icon="pi pi-pencil"
+          class="p-button-rounded p-button-warning mr-2"
+          (click)="editCompetition(competition.id)"
+        ></p-button>
+        <p-button
+          icon="pi pi-trash"
+          class="p-button-rounded p-button-danger"
+          (click)="deleteCompetition(competition.id)"
+        ></p-button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

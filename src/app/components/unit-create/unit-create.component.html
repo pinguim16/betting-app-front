@@ -1,0 +1,38 @@
+<p-card header="Nova Unit">
+    <form (ngSubmit)="createUnit()" #unitForm="ngForm">
+      <div class="p-fluid">
+        <!-- Valor -->
+        <div class="p-field">
+          <label for="value">Valor</label>
+          <p-inputNumber
+            id="value"
+            [(ngModel)]="unit.value"
+            name="value"
+            mode="decimal"
+            [minFractionDigits]="2"
+            required
+          ></p-inputNumber>
+        </div>
+  
+        <!-- Botões -->
+        <div class="p-field">
+          <button
+            type="submit"
+            pButton
+            label="Salvar"
+            icon="pi pi-check"
+            class="p-button-success"
+          ></button>
+          <button
+            type="button"
+            pButton
+            label="Cancelar"
+            icon="pi pi-times"
+            class="p-button-secondary"
+            (click)="goBack()"
+          ></button>
+        </div>
+      </div>
+    </form>
+  </p-card>
+  

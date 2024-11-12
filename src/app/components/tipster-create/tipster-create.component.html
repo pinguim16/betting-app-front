@@ -1,0 +1,66 @@
+<p-card header="Novo Tipster">
+    <form (ngSubmit)="createTipster()" #tipsterForm="ngForm">
+      <div class="p-fluid">
+        <!-- Nome -->
+        <div class="p-field">
+          <label for="name">Nome</label>
+          <input
+            id="name"
+            type="text"
+            pInputText
+            [(ngModel)]="tipster.name"
+            name="name"
+            required
+          />
+        </div>
+  
+        <!-- Bingos -->
+        <div class="p-field">
+          <label for="bingos">Bingos</label>
+          <input
+            id="bingos"
+            type="number"
+            pInputText
+            [(ngModel)]="tipster.bingos"
+            name="bingos"
+            step="0.01"
+            required
+          />
+        </div>
+  
+        <!-- Sport -->
+        <div class="p-field">
+          <label for="sport">Esporte</label>
+          <p-dropdown
+            id="sport"
+            [options]="sports"
+            [(ngModel)]="tipster.sport"
+            name="sport"
+            optionLabel="name"
+            placeholder="Selecione um Esporte"
+            required
+          ></p-dropdown>
+        </div>
+  
+        <!-- Botões -->
+        <div class="p-field">
+          <button
+            type="submit"
+            pButton
+            label="Salvar"
+            icon="pi pi-check"
+            class="p-button-success"
+          ></button>
+          <button
+            type="button"
+            pButton
+            label="Cancelar"
+            icon="pi pi-times"
+            class="p-button-secondary"
+            (click)="goBack()"
+          ></button>
+        </div>
+      </div>
+    </form>
+  </p-card>
+  

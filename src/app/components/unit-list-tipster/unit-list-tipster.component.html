@@ -1,0 +1,32 @@
+<p-table #dt1 [value]="filteredUnits" dataKey="id" [globalFilterFields]="['unit.tipster.name']">
+
+  <ng-template pTemplate="header">
+
+    <tr>
+      <th>ID</th>
+      <th>Valor da Unidade</th>
+      <th style="min-width:15rem">
+        <div class="flex align-items-center">
+          <div class="flex align-items-center">
+            Tipster
+            <p-multiSelect [(ngModel)]="selectedTipsters" [options]="tipsters" optionLabel="name" optionValue="name"
+              placeholder="Any" (onChange)="applyFilter()" [appendTo]="'body'">
+              <ng-template let-option pTemplate="item">
+                <div class="inline-block vertical-align-middle">
+                  <span class="ml-1 mt-1">{{ option.name }}</span>
+                </div>
+              </ng-template>
+            </p-multiSelect>
+          </div>
+        </div>
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-unit>
+    <tr>
+      <td>{{ unit.id }}</td>
+      <td>{{ unit.value }}</td>
+      <td>{{ unit.tipster.name }}</td>
+    </tr>
+  </ng-template>
+</p-table>

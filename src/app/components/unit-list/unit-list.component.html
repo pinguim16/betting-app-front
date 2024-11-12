@@ -1,0 +1,43 @@
+<p-button
+  label="Nova Unit"
+  icon="pi pi-plus"
+  class="p-button-success mb-3"
+  (click)="createUnit()"
+></p-button>
+
+<p-button
+  label="Voltar"
+  icon="pi pi-arrow-left"
+  class="p-button-secondary mb-3 ml-2"
+  (click)="goBack()"
+></p-button>
+
+<p-table [value]="units">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>ID</th>
+      <th>Valor</th>
+      <th>Tipster</th>
+      <th>Ações</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-unit>
+    <tr>
+      <td>{{ unit.id }}</td>
+      <td>{{ unit.value }}</td>
+      <td>{{ unit.tipster.name }}</td>
+      <td>
+        <p-button
+          icon="pi pi-pencil"
+          class="p-button-rounded p-button-warning mr-2"
+          (click)="editUnit(unit.id)"
+        ></p-button>
+        <p-button
+          icon="pi pi-trash"
+          class="p-button-rounded p-button-danger"
+          (click)="deleteUnit(unit.id)"
+        ></p-button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

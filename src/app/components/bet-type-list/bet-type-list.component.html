@@ -1,0 +1,34 @@
+<p-button
+  label="Novo Tipo de Aposta"
+  icon="pi pi-plus"
+  class="p-button-success mb-3"
+  (click)="createBetType()"
+></p-button>
+
+<p-table [value]="betTypes">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>ID</th>
+      <th>Nome</th>
+      <th>Ações</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-betType>
+    <tr>
+      <td>{{ betType.id }}</td>
+      <td>{{ betType.name }}</td>
+      <td>
+        <p-button
+          icon="pi pi-pencil"
+          class="p-button-rounded p-button-warning mr-2"
+          (click)="editBetType(betType.id)"
+        ></p-button>
+        <p-button
+          icon="pi pi-trash"
+          class="p-button-rounded p-button-danger"
+          (click)="deleteBetType(betType.id)"
+        ></p-button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
