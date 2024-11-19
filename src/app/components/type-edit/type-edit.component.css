@@ -1,0 +1,47 @@
+.form-header {
+    display: flex;
+    align-items: center;
+  }
+  
+  .form-header h2 {
+    margin: 0;
+  }
+  
+  .p-field {
+    margin-bottom: 1rem;
+  }
+  
+  .p-button {
+    margin-right: 0.5rem;
+  }
+  
+  .p-button:last-child {
+    margin-right: 0;
+  }
+  
+  .p-field {
+    margin-bottom: 1rem;
+  }
+  
+  .p-button {
+    margin-right: 0.5rem;
+  }
+  
+  .p-button:last-child {
+    margin-right: 0;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+  }
+  
+  .button-container p-button {
+    margin-right: 0.5rem;
+  }
+  
+  .button-container p-button:last-child {
+    margin-right: 0;
+  }
+  

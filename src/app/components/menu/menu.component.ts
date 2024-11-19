@@ -16,11 +16,17 @@ export class MenuComponent {
   ngOnInit() {
     this.items = [
       {
+        label: 'Dashboard',
+        icon: 'pi pi-fw pi-home',
+        routerLink: '/dashboard', // Aponta para a rota '/dashboard'
+      },
+      {
         label: 'Apostas',
         icon: 'pi pi-fw pi-file',
         items: [
           { label: 'Listar Apostas', icon: 'pi pi-fw pi-list', routerLink: '/bets' },
           { label: 'Nova Aposta', icon: 'pi pi-fw pi-plus', routerLink: '/bets/create' },
+          { label: 'Importar Apostas', icon: 'pi pi-fw pi-upload', routerLink: '/bets/import' }, // Atualizado para '/bets/import'
         ],
       },
       {
@@ -91,6 +97,15 @@ export class MenuComponent {
         items: [
           { label: 'Listar Bankrolls', icon: 'pi pi-fw pi-list', routerLink: '/bankrolls' },
           { label: 'Novo Bankroll', icon: 'pi pi-fw pi-plus', routerLink: '/bankrolls/create' },
+        ],
+      },
+
+      {
+        label: 'Tipos',
+        icon: 'pi pi-fw pi-list', // Você pode escolher outro ícone que achar mais apropriado
+        items: [
+          { label: 'Listar Tipos', icon: 'pi pi-fw pi-list', routerLink: '/types' },
+          { label: 'Novo Tipo', icon: 'pi pi-fw pi-plus', routerLink: '/types/create' },
         ],
       },
 

@@ -1,17 +1,17 @@
 export interface Bet {
-  id?: number;
-  date: Date;
-  competition: Competition;
-  category: Category;
-  bookmaker: Bookmaker;
+  id: number | null;
+  date: Date | null;
+  competitionId: number | null;
+  categoryId: number | null;
+  bookmakerId: number | null;
   bookmakerBetId?: string;
-  state?: string;
-  betType: BetType;
-  label?: string;
-  odds?: number;
-  stake?: number;
-  tipster: Tipster;
-  sport: Sport;
+  state: string | null; // Ou use o enum correspondente
+  betTypeId: number | null;
+  tipsterId: number | null;
+  sportId: number | null;
+  bankrollId: number | null;
+  odds: number | null;
+  stake: number | null;
   profit?: number;
   totalValue?: number;
   closing?: number;
@@ -21,7 +21,33 @@ export interface Bet {
   cashout?: boolean;
   eachWay?: boolean;
   comment?: string;
-  bankroll: Bankroll;
+  label?: string;
+  // Remover profitLoss se não for necessário
+}
+
+export interface BetCreate {
+  date: string | null;
+  competitionId: number | null;
+  categoryId: number | null;
+  bookmakerId: number | null;
+  bookmakerBetId?: string;
+  state: string | null;
+  betTypeId: number | null;
+  tipsterId: number | null;
+  sportId: number | null;
+  bankrollId: number | null;
+  odds: number | null;
+  stake: number | null;
+  profit?: number;
+  totalValue?: number;
+  closing?: number;
+  commission?: number;
+  live?: boolean;
+  freebet?: boolean;
+  cashout?: boolean;
+  eachWay?: boolean;
+  comment?: string;
+  label?: string;
 }
 
 //Pronto
@@ -111,4 +137,58 @@ export interface TipsterMetrics {
   successRate: number;
   averageOdds: number;
   averageStake: number;
+}
+
+export interface BankrollEvolutionDTO {
+  date: string; // Formato 'yyyy-MM-dd'
+  total: number;
+}
+
+export interface Type {
+  id: number;
+  name: string;
+}
+
+export enum BetState {
+  PENDING = 'P',
+  WON = 'W',
+  LOST = 'L',
+  HALF_WON = 'HW',
+  HALF_LOST = 'HL',
+  CASHOUT = 'CASH',
+  REFUNDED = 'R',
+  CANCELED = 'C'
+}
+
+export interface BetCsvDTO {
+  id: string;
+  date: string;
+  type: string;
+  sport: string;
+  label: string;
+  odds: number;
+  stake: number;
+  state: string;
+  bookmaker: string;
+  tipster: string;
+  category: string;
+  competition: string;
+  betType: string;
+  closing: string;
+  comment: string;
+  live?: boolean;
+  freebet?: boolean;
+  cashout?: boolean;
+  eachWay?: boolean;
+  errors?: string[]; // Campo para armazenar erros específicos do registro
+}
+
+export interface BetWithExpanded extends BetCsvDTO {
+  expanded?: boolean;
+}
+
+export interface BetImportResponseDTO {
+  bets: BetWithExpanded[];
+  errors?: string[];
+  message?: string;
 }

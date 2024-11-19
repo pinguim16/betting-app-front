@@ -8,7 +8,7 @@ import { DashboardMetrics, BankrollEvolution, Distribution, TipsterMetrics } fro
   providedIn: 'root',
 })
 export class DashboardService {
-  private apiUrl = 'http://localhost:8082/api/dashboard';
+  private apiUrl = 'http://localhost:8082/dashboard';
 
   constructor(private http: HttpClient) {}
 

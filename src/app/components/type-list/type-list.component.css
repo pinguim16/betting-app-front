@@ -1,0 +1,21 @@
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.p-button {
+  margin-right: 0.5rem;
+}
+
+.p-button:last-child {
+  margin-right: 0;
+}
+
+th {
+  text-align: left;
+}
+
+td {
+  vertical-align: middle;
+}

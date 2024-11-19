@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TipsterEditComponent } from './tipster-edit.component';
+import { BetImportComponent } from './bet-import.component';
 
-describe('TipsterEditComponent', () => {
-  let component: TipsterEditComponent;
-  let fixture: ComponentFixture<TipsterEditComponent>;
+describe('BetImportComponent', () => {
+  let component: BetImportComponent;
+  let fixture: ComponentFixture<BetImportComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TipsterEditComponent]
+      imports: [BetImportComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(TipsterEditComponent);
+    fixture = TestBed.createComponent(BetImportComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

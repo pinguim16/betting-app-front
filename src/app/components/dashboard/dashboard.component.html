@@ -1,6 +1,14 @@
 <!-- src/app/components/dashboard/dashboard.component.html -->
 <div class="dashboard-container">
 
+  <!-- Seleção de Bankroll -->
+  <div class="bankroll-selector">
+    <label for="bankrollSelect">Selecione o Bankroll:</label>
+    <select id="bankrollSelect" [(ngModel)]="bankrollId" (change)="loadBankrollEvolutionChart()">
+      <option *ngFor="let bankroll of bankrolls" [value]="bankroll.id">{{ bankroll.name }}</option>
+    </select>
+  </div>
+
   <!-- Indicadores de Métricas -->
   <div class="metrics-grid">
     <p-card class="metric-card">

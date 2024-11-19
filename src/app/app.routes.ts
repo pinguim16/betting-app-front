@@ -27,11 +27,19 @@ import { BankrollListComponent } from './components/bankroll-list/bankroll-list.
 import { BankrollCreateComponent } from './components/bankroll-create/bankroll-create.component';
 import { BankrollEditComponent } from './components/bankroll-edit/bankroll-edit.component';
 import { UnitListTipsterComponent } from './components/unit-list-tipster/unit-list-tipster.component';
+import { BetImportComponent } from './components/bet-import/bet-import.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { TypeListComponent } from './components/type-list/type-list.component';
+import { TypeCreateComponent } from './components/type-create/type-create.component';
+import { TypeEditComponent } from './components/type-edit/type-edit.component';
 
 export const routes: Routes = [
+  // Rota raiz redirecionando para '/dashboard'
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+
+  // Rotas específicas
   { path: 'dashboard', component: DashboardComponent },
+  { path: 'bets/import', component: BetImportComponent },
 
   { path: 'bets', component: BetListComponent },
   { path: 'bets/create', component: BetCreateComponent },
@@ -69,4 +77,11 @@ export const routes: Routes = [
   { path: 'bankrolls', component: BankrollListComponent },
   { path: 'bankrolls/create', component: BankrollCreateComponent },
   { path: 'bankrolls/edit/:id', component: BankrollEditComponent },
+
+  { path: 'types', component: TypeListComponent },
+  { path: 'types/create', component: TypeCreateComponent },
+  { path: 'types/edit/:id', component: TypeEditComponent },
+
+  // Rota coringa - deve ser a última
+  { path: '**', redirectTo: '/dashboard', pathMatch: 'full' },
 ];

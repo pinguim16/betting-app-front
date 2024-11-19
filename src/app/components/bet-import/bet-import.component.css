@@ -1,0 +1,153 @@
+/* src/app/components/bet-import/bet-import.component.css */
+
+/* Classe personalizada para adicionar margem de 10px acima do botão */
+.import-button {
+  margin-top: 10px; /* Espaçamento de 10px acima do botão */
+}
+
+/* Controle da largura do p-dropdown via CSS */
+.custom-dropdown {
+  width: 100%;
+}
+
+/* Garantir que a tabela ocupe toda a largura disponível */
+.table-section p-table {
+  width: 100%;
+  table-layout: fixed; /* Define layout fixo para respeitar larguras das colunas */
+}
+
+/* Remove barras de rolagem indesejadas e adiciona padding */
+.table-section .p-datatable {
+  overflow: hidden;
+  padding: 0 10px;
+}
+
+/* Permite scroll horizontal apenas na tabela, se necessário */
+.table-section .p-datatable-wrapper {
+  overflow-x: auto;
+}
+
+/* Limita a altura da tabela */
+.table-section .p-datatable-scrollable-body {
+  max-height: 400px;
+}
+
+/* Estilização das colunas */
+.table-section th,
+.table-section td {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Definindo larguras específicas para as colunas */
+.column-id {
+  width: 5%;
+}
+
+.column-date,
+.column-type,
+.column-sport,
+.column-label,
+.column-bookmaker,
+.column-tipster,
+.column-erros {
+  width: 10%;
+}
+
+.column-odds,
+.column-stake,
+.column-state {
+  width: 5%;
+}
+
+.column-erros {
+  width: 5%;
+}
+
+.column-comment,
+.column-live,
+.column-freebet,
+.column-cashout,
+.column-eachWay {
+  display: none; /* Oculta colunas que agora são exibidas na linha expandida */
+}
+
+/* Estilização dos badges de erro */
+.erros-badge {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+}
+
+/* Estilização das linhas destacadas */
+.p-highlight {
+  background-color: #fff3cd !important; /* Cor de destaque para linhas com erros */
+}
+
+/* Estilização da linha expandida */
+.p-datatable-expanded-row {
+  background-color: #f1f1f1;
+}
+
+/* Ajuste nos inputs de filtragem */
+.p-datatable thead tr:nth-child(2) th {
+  padding: 0.25rem;
+}
+
+.p-datatable thead tr:nth-child(2) th input {
+  width: 100%;
+}
+
+/* Estilos para a linha expandida */
+.expanded-row {
+  background-color: #f9f9f9;
+}
+
+.expanded-content {
+  padding: 15px;
+}
+
+.expanded-content h4 {
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.details-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 15px;
+}
+
+.details-table th,
+.details-table td {
+  padding: 8px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.details-table th {
+  background-color: #f2f2f2;
+  width: 15%;
+}
+
+.details-table td {
+  width: 18%;
+}
+
+.details-table td[colspan="5"] {
+  width: auto;
+}
+
+.errors-list {
+  padding-left: 20px;
+}
+
+.errors-list li {
+  margin-bottom: 5px;
+}

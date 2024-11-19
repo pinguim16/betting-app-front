@@ -1,78 +1,98 @@
-<!-- src/app/components/bet-create/bet-create.component.html -->
-
 <p-card header="Criar Nova Aposta">
   <form (ngSubmit)="createBet()" #betForm="ngForm">
     <div class="p-fluid p-formgrid p-grid">
       <!-- Data da Aposta -->
       <div class="p-field p-col-12 p-md-6">
         <label for="date">Data</label>
-        <p-calendar id="date" [(ngModel)]="bet.date" name="date" [showTime]="true" dateFormat="dd/mm/yy"></p-calendar>
+        <p-calendar id="date" [(ngModel)]="bet.date" name="date" [showTime]="true" dateFormat="dd/mm/yy"
+          required></p-calendar>
       </div>
 
       <!-- Bankroll -->
-      <div class="p-field">
+      <div class="p-field p-col-12 p-md-6">
         <label for="bankroll">Bankroll</label>
-        <p-dropdown id="bankroll" [options]="bankrolls" [(ngModel)]="bet.bankroll" name="bankroll" optionLabel="name"
-          placeholder="Selecione um Bankroll" required></p-dropdown>
+        <p-dropdown id="bankroll" [options]="bankrolls" [(ngModel)]="bet.bankrollId" name="bankrollId"
+          optionLabel="name" optionValue="id" placeholder="Selecione um Bankroll" required>
+        </p-dropdown>
       </div>
 
       <!-- Tipster -->
       <div class="p-field p-col-12 p-md-6">
         <label for="tipster">Tipster</label>
-        <p-dropdown id="tipster" [options]="tipsters" [(ngModel)]="bet.tipster" name="tipster" optionLabel="name"
-          placeholder="Selecione um Tipster"></p-dropdown>
+        <p-dropdown id="tipster" [options]="tipsters" [(ngModel)]="bet.tipsterId" name="tipsterId" optionLabel="name"
+          optionValue="id" placeholder="Selecione um Tipster" required>
+        </p-dropdown>
       </div>
 
       <!-- Esporte -->
       <div class="p-field p-col-12 p-md-6">
         <label for="sport">Esporte</label>
-        <p-dropdown id="sport" [options]="sports" [(ngModel)]="bet.sport" name="sport" optionLabel="name"
-          placeholder="Selecione um Esporte"></p-dropdown>
+        <p-dropdown id="sport" [options]="sports" [(ngModel)]="bet.sportId" name="sportId" optionLabel="name"
+          optionValue="id" placeholder="Selecione um Esporte" required>
+        </p-dropdown>
       </div>
 
       <!-- Bookmaker -->
       <div class="p-field p-col-12 p-md-6">
         <label for="bookmaker">Bookmaker</label>
-        <p-dropdown id="bookmaker" [options]="bookmakers" [(ngModel)]="bet.bookmaker" name="bookmaker"
-          optionLabel="name" placeholder="Selecione um Bookmaker"></p-dropdown>
+        <p-dropdown id="bookmaker" [options]="bookmakers" [(ngModel)]="bet.bookmakerId" name="bookmakerId"
+          optionLabel="name" optionValue="id" placeholder="Selecione um Bookmaker" required>
+        </p-dropdown>
       </div>
 
       <!-- Categoria -->
       <div class="p-field p-col-12 p-md-6">
         <label for="category">Categoria</label>
-        <p-dropdown id="category" [options]="categories" [(ngModel)]="bet.category" name="category" optionLabel="name"
-          placeholder="Selecione uma Categoria"></p-dropdown>
+        <p-dropdown id="category" [options]="categories" [(ngModel)]="bet.categoryId" name="categoryId"
+          optionLabel="name" optionValue="id" placeholder="Selecione uma Categoria" required>
+        </p-dropdown>
       </div>
 
       <!-- Competição -->
       <div class="p-field p-col-12 p-md-6">
         <label for="competition">Competição</label>
-        <p-dropdown id="competition" [options]="competitions" [(ngModel)]="bet.competition" name="competition"
-          optionLabel="name" placeholder="Selecione uma Competição"></p-dropdown>
+        <p-dropdown id="competition" [options]="competitions" [(ngModel)]="bet.competitionId" name="competitionId"
+          optionLabel="name" optionValue="id" placeholder="Selecione uma Competição" required>
+        </p-dropdown>
       </div>
 
       <!-- Tipo de Aposta -->
       <div class="p-field p-col-12 p-md-6">
         <label for="betType">Tipo de Aposta</label>
-        <p-dropdown id="betType" [options]="betTypes" [(ngModel)]="bet.betType" name="betType" optionLabel="name"
-          placeholder="Selecione um Tipo de Aposta"></p-dropdown>
+        <p-dropdown id="betType" [options]="betTypes" [(ngModel)]="bet.betTypeId" name="betTypeId" optionLabel="name"
+          optionValue="id" placeholder="Selecione um Tipo de Aposta" required>
+        </p-dropdown>
+      </div>
+
+      <!-- Estado da Aposta -->
+      <div class="p-field p-col-12 p-md-6">
+        <label for="state">Estado da Aposta</label>
+        <p-dropdown id="state" [options]="betStates" [(ngModel)]="bet.state" name="state" optionLabel="label"
+          optionValue="value" placeholder="Selecione o Estado da Aposta" required>
+        </p-dropdown>
       </div>
 
       <!-- Odds -->
       <div class="p-field p-col-12 p-md-6">
         <label for="odds">Odds</label>
-        <input id="odds" type="number" pInputText [(ngModel)]="bet.odds" name="odds" step="0.01" />
+        <input id="odds" type="number" pInputText [(ngModel)]="bet.odds" name="odds" step="0.01" required />
       </div>
 
       <!-- Stake -->
       <div class="p-field p-col-12 p-md-6">
         <label for="stake">Stake</label>
-        <input id="stake" type="number" pInputText [(ngModel)]="bet.stake" name="stake" step="0.01" />
+        <input id="stake" type="number" pInputText [(ngModel)]="bet.stake" name="stake" step="0.01" required />
+      </div>
+
+      <!-- Mensagem de Erro -->
+      <div *ngIf="errorMessage" class="p-field p-col-12">
+        <div class="p-error">{{ errorMessage }}</div>
       </div>
 
       <!-- Botões -->
       <div class="p-field p-col-12">
-        <button type="submit" pButton label="Salvar" icon="pi pi-check" class="p-button-success"></button>
+        <button type="submit" pButton label="Salvar" icon="pi pi-check" class="p-button-success"
+          [disabled]="!betForm.form.valid"></button>
         <button type="button" pButton label="Cancelar" icon="pi pi-times" class="p-button-secondary"
           (click)="goBack()"></button>
       </div>

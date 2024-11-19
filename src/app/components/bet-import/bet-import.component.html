@@ -1,0 +1,231 @@
+<div class="bet-import-container p-fluid">
+  <!-- Seção de Importação -->
+  <div class="import-section p-card p-mb-4">
+    <div class="p-card-header">
+      <h2>Importar Apostas</h2>
+    </div>
+    <div class="p-card-body">
+      <form [formGroup]="importForm" (ngSubmit)="importBets()" novalidate>
+        <!-- Seleção do Bankroll -->
+        <div class="p-field">
+          <label for="bankroll">Selecione o Bankroll:</label>
+          <p-dropdown id="bankroll" [options]="bankrolls" optionLabel="name" optionValue="id" formControlName="bankroll"
+            placeholder="-- Selecione um Bankroll --" class="custom-dropdown"></p-dropdown>
+          <small *ngIf="
+              importForm.get('bankroll')?.invalid &&
+              importForm.get('bankroll')?.touched
+            " class="p-error">
+            Bankroll é obrigatório.
+          </small>
+        </div>
+
+        <!-- Seleção do Arquivo CSV com p-fileUpload -->
+        <div class="p-field">
+          <label for="file">Selecione o Arquivo CSV:</label>
+          <p-fileUpload name="file" mode="basic" accept=".csv" chooseLabel="Escolher" customUpload="true"
+            (onSelect)="onFileSelect($event)" [ngClass]="{
+              'p-invalid':
+                importForm.get('file')?.invalid &&
+                importForm.get('file')?.touched
+            }"></p-fileUpload>
+          <small *ngIf="
+  importForm.get('file')?.invalid &&
+  importForm.get('file')?.touched
+" class="p-error">
+            <span *ngIf="importForm.get('file')?.errors?.['required']">
+              Arquivo CSV é obrigatório.
+            </span>
+            <span *ngIf="importForm.get('file')?.errors?.['invalidFile']">
+              Por favor, selecione um arquivo CSV válido.
+            </span>
+          </small>
+        </div>
+
+        <!-- Botão de Importação com Classe Personalizada -->
+        <div class="p-field">
+          <button pButton type="submit" label="Importar Apostas" icon="pi pi-upload"
+            [disabled]="importForm.invalid || uploadProgress > 0"
+            class="p-button-primary p-mt-2 import-button"></button>
+        </div>
+      </form>
+
+      <!-- Mensagens de Sucesso ou Erro -->
+      <div *ngIf="message" [ngClass]="{ 'p-error': isError, 'p-success': !isError }" class="p-mt-3">
+        <span [ngClass]="{ 'p-error': isError, 'p-success': !isError }">
+          {{ message }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Seção da Tabela de Apostas Processadas -->
+  <div class="table-section p-card" *ngIf="response.bets && response.bets.length > 0">
+    <div class="p-card-header">
+      <h3>Apostas Processadas</h3>
+    </div>
+    <div class="p-card-body">
+      <p-table #dt [value]="response.bets" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10, 20, 50]"
+        [responsiveLayout]="'scroll'" [sortMode]="'multiple'" [filterDelay]="300" [resizableColumns]="true"
+        [reorderableColumns]="true" class="p-datatable-gridlines p-datatable-sm">
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon></th>
+            <th pSortableColumn="date">Date <p-sortIcon field="date"></p-sortIcon></th>
+            <th pSortableColumn="type">Type <p-sortIcon field="type"></p-sortIcon></th>
+            <th pSortableColumn="sport">Sport <p-sortIcon field="sport"></p-sortIcon></th>
+            <th pSortableColumn="label">Label <p-sortIcon field="label"></p-sortIcon></th>
+            <th pSortableColumn="odds">Odds <p-sortIcon field="odds"></p-sortIcon></th>
+            <th pSortableColumn="stake">Stake <p-sortIcon field="stake"></p-sortIcon></th>
+            <th pSortableColumn="state">State <p-sortIcon field="state"></p-sortIcon></th>
+            <th pSortableColumn="bookmaker">Bookmaker <p-sortIcon field="bookmaker"></p-sortIcon></th>
+            <th pSortableColumn="tipster">Tipster <p-sortIcon field="tipster"></p-sortIcon></th>
+            <th pSortableColumn="erros">Erros <p-sortIcon field="erros"></p-sortIcon></th>
+            <th style="width: 50px;"></th> <!-- Coluna para detalhes -->
+          </tr>
+          <tr>
+            <th>
+              <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'id', 'contains')"
+                placeholder="Buscar Id" />
+            </th>
+            <th>
+              <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'date', 'contains')"
+                placeholder="Buscar Date" />
+            </th>
+            <th>
+              <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'type', 'contains')"
+                placeholder="Buscar Type" />
+            </th>
+            <th>
+              <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'sport', 'contains')"
+                placeholder="Buscar Sport" />
+            </th>
+            <th>
+              <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'label', 'contains')"
+                placeholder="Buscar Label" />
+            </th>
+            <th>
+              <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'odds', 'contains')"
+                placeholder="Buscar Odds" />
+            </th>
+            <th>
+              <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'stake', 'contains')"
+                placeholder="Buscar Stake" />
+            </th>
+            <th>
+              <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'state', 'contains')"
+                placeholder="Buscar State" />
+            </th>
+            <th>
+              <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'bookmaker', 'contains')"
+                placeholder="Buscar Bookmaker" />
+            </th>
+            <th>
+              <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'tipster', 'contains')"
+                placeholder="Buscar Tipster" />
+            </th>
+            <th>
+              <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'erros', 'contains')"
+                placeholder="Buscar Erros" />
+            </th>
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-bet>
+          <tr [ngClass]="{ 'p-highlight': bet.errors && bet.errors.length > 0 }">
+            <td>{{ bet.id }}</td>
+            <td>{{ bet.date }}</td>
+            <td>{{ bet.type | betType }}</td>
+            <td>{{ bet.sport }}</td>
+            <td>
+              <span pTooltip="{{ bet.label }}" tooltipPosition="top">
+                {{ bet.label | slice:0:20 }}{{ bet.label.length > 20 ? '...' : '' }}
+              </span>
+            </td>
+            <td>{{ bet.odds }}</td>
+            <td>{{ bet.stake }}</td>
+            <td>{{ bet.state | betState }}</td>
+            <td>
+              <span pTooltip="{{ bet.bookmaker }}" tooltipPosition="top">
+                {{ bet.bookmaker | slice:0:15 }}{{ bet.bookmaker.length > 15 ? '...' : '' }}
+              </span>
+            </td>
+            <td>
+              <span pTooltip="{{ bet.tipster }}" tooltipPosition="top">
+                {{ bet.tipster | slice:0:15 }}{{ bet.tipster.length > 15 ? '...' : '' }}
+              </span>
+            </td>
+            <td>
+              <span class="erros-badge" *ngIf="bet.errors && bet.errors.length > 0">
+                {{ bet.errors.length }} Erro(s)
+              </span>
+              <span *ngIf="!bet.errors || bet.errors.length === 0">Nenhum</span>
+            </td>
+            <td>
+              <button pButton type="button" icon="pi pi-eye" class="p-button-text p-button-rounded p-button-sm"
+                (click)="bet.expanded = !bet.expanded"></button>
+            </td>
+          </tr>
+          <!-- Linha Expandida para Detalhes -->
+          <!-- Linha Expandida para Detalhes -->
+          <tr *ngIf="bet.expanded" class="expanded-row">
+            <td colspan="12">
+              <div class="expanded-content">
+                <h4>Detalhes da Aposta</h4>
+                <table class="details-table">
+                  <tbody>
+                    <tr>
+                      <th>Live</th>
+                      <td>{{ bet.live ? 'Sim' : 'Não' }}</td>
+                      <th>Freebet</th>
+                      <td>{{ bet.freebet ? 'Sim' : 'Não' }}</td>
+                      <th>Cashout</th>
+                      <td>{{ bet.cashout ? 'Sim' : 'Não' }}</td>
+                    </tr>
+                    <tr>
+                      <th>EachWay</th>
+                      <td>{{ bet.eachWay ? 'Sim' : 'Não' }}</td>
+                      <th>Categoria</th>
+                      <td>{{ bet.category || 'N/A' }}</td>
+                      <th>Competição</th>
+                      <td>{{ bet.competition || 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                      <th>BetType</th>
+                      <td>{{ bet.betType || 'N/A' }}</td>
+                      <th>Closing</th>
+                      <td>{{ bet.closing || 'N/A' }}</td>
+                      <th></th>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <th>Comentários</th>
+                      <td colspan="5">{{ bet.comment || 'Nenhum comentário.' }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <h4>Erros</h4>
+                <ul class="errors-list" *ngIf="bet.errors && bet.errors.length > 0">
+                  <li *ngFor="let error of bet.errors">{{ error }}</li>
+                </ul>
+                <p *ngIf="!bet.errors || bet.errors.length === 0">Nenhum erro encontrado.</p>
+              </div>
+            </td>
+          </tr>
+
+
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="12">Nenhuma aposta encontrada.</td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+      <!-- Botão para Salvar Apostas Válidas -->
+      <div class="p-d-flex p-jc-end p-mt-3">
+        <button pButton type="button" label="Salvar Apostas Válidas" icon="pi pi-save" [disabled]="!canSave"
+          (click)="saveBets()" class="p-button-success"></button>
+      </div>
+    </div>
+  </div>
+</div>

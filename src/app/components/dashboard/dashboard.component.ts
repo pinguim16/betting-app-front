@@ -5,7 +5,9 @@ import { CardModule } from 'primeng/card';
 import { NgChartsModule } from 'ng2-charts';
 import { ChartType, ChartOptions } from 'chart.js';
 import { DashboardService } from '../../services/dashboard.service'; // Ajuste o caminho conforme necessário
-import { BankrollEvolution, DashboardMetrics, Distribution, TipsterMetrics } from '../../models/bet.model';
+import { Bankroll, BankrollEvolution, DashboardMetrics, Distribution, TipsterMetrics } from '../../models/bet.model';
+import { BankrollService } from '../../services/bankroll.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,12 +18,19 @@ import { BankrollEvolution, DashboardMetrics, Distribution, TipsterMetrics } fro
     CommonModule,
     CardModule,
     NgChartsModule,
+    FormsModule
     // Outros módulos PrimeNG se necessário
   ],
 })
 export class DashboardComponent implements OnInit {
   // Métricas do Dashboard
   tipstersMetrics: TipsterMetrics[] = [];
+  // Defina o bankrollId aqui. Pode ser dinâmico conforme necessário.
+  // Se houver apenas um Bankroll, você pode definir um ID fixo.
+  bankrollId: number = 1; // Ajuste conforme necessário
+  // Lista de Bankrolls para seleção
+  bankrolls: Bankroll[] = [];
+
 
   metrics: DashboardMetrics = {
     totalBankroll: 0,
@@ -82,15 +91,18 @@ export class DashboardComponent implements OnInit {
     },
   };
 
-  constructor(private dashboardService: DashboardService) { }
+  constructor(private dashboardService: DashboardService,
+    private bankrollService: BankrollService) { }
 
   ngOnInit(): void {
     this.loadMetrics();
-    this.loadBankrollEvolution();
     this.loadDistributionBySport();
     this.loadDistributionByTipster();
     this.loadDistributionByCategory();
     this.loadTipstersMetrics();
+
+    this.loadBankrollEvolutionChart();
+    this.loadBankrolls();
   }
 
   // Carregar Métricas
@@ -106,14 +118,82 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  // Carregar Evolução do Bankroll
-  loadBankrollEvolution(): void {
-    this.dashboardService.getBankrollEvolution().subscribe(
-      (data: BankrollEvolution[]) => {
-        this.prepareBankrollEvolutionChart(data);
+  loadBankrolls(): void {
+    // Implemente o método no BankrollService para obter todos os bankrolls
+    this.bankrollService.getAllBankrolls().subscribe(
+      data => {
+        this.bankrolls = data;
+        if (this.bankrolls.length > 0) {
+          this.bankrollId = this.bankrolls[0].id; // Define o primeiro Bankroll como padrão
+          this.loadMetrics();
+          this.loadBankrollEvolutionChart();
+          //this.loadOtherCharts();
+          this.loadTipstersMetrics();
+        } else {
+          // Lidar com a ausência de Bankrolls
+          console.warn('Nenhum Bankroll encontrado.');
+        }
       },
-      (error) => {
-        console.error('Erro ao carregar evolução do bankroll', error);
+      error => {
+        console.error('Erro ao carregar os Bankrolls', error);
+        // Opcional: Exiba uma mensagem de erro no frontend
+      }
+    );
+  }
+
+  loadBankrollEvolutionChart(): void {
+    this.bankrollService.getBankrollEvolution(this.bankrollId).subscribe(
+      data => {
+        const labels = data.map(entry => entry.date);
+        const totals = data.map(entry => entry.total);
+
+        this.bankrollEvolutionChartData = {
+          labels: labels,
+          datasets: [{
+            label: 'Evolução do Bankroll',
+            data: totals,
+            borderColor: 'rgba(75, 192, 192, 1)',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            fill: true,
+            tension: 0.4
+          }]
+        };
+
+        this.bankrollEvolutionChartOptions = {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top',
+            },
+            title: {
+              display: true,
+              text: 'Evolução do Bankroll ao Longo do Tempo'
+            }
+          },
+          scales: {
+            x: {
+              title: {
+                display: true,
+                text: 'Data'
+              },
+              ticks: {
+                autoSkip: true,
+                maxTicksLimit: 20
+              }
+            },
+            y: {
+              title: {
+                display: true,
+                text: 'Total Bankroll (BRL)'
+              },
+              beginAtZero: true
+            }
+          }
+        };
+      },
+      error => {
+        console.error('Erro ao buscar evolução do bankroll', error);
+        // Opcional: Exiba uma mensagem de erro no frontend
       }
     );
   }
@@ -255,8 +335,4 @@ export class DashboardComponent implements OnInit {
       }
     );
   }
-
-
-
-
 }
