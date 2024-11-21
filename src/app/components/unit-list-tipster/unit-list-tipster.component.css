@@ -1,0 +1,89 @@
+/* unit-list.component.css */
+
+/* Container do Cabeçalho */
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  /* Container de Filtros com Flexbox */
+  .filter-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  /* Itens de Filtro */
+  .filter-item {
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Estilização do Rótulo do Filtro */
+  .filter-label {
+    margin-right: 0.5rem;
+    font-weight: 600;
+    min-width: 150px; /* Define uma largura mínima para os rótulos */
+  }
+  
+  /* Estilização do MultiSelect */
+  .filter-select {
+    min-width: 200px;
+  }
+  
+  /* Alinhamento de Itens dentro do MultiSelect */
+  .unit-item {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Estilização dos Botões dentro da Tabela */
+  .p-button-rounded {
+    margin-right: 0.5rem;
+  }
+  
+  /* Margem Automática para Empurrar Elementos */
+  .ml-auto {
+    margin-left: auto;
+  }
+  
+  /* Margem à Esquerda para Espaçamento entre Botões */
+  .ml-2 {
+    margin-left: 0.5rem;
+  }
+  
+  /* Estilo Condicional para Campos Inválidos */
+  .ng-dirty {
+    border: 1px solid red;
+  }
+  
+  /* Responsividade Adicional */
+  @media screen and (max-width: 768px) {
+    .header-container {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .filter-container {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .filter-item {
+      margin-right: 0;
+      width: 100%;
+    }
+  
+    .filter-label {
+      min-width: 100%;
+      margin-bottom: 0.5rem;
+    }
+  
+    .filter-select {
+      min-width: 100%;
+    }
+  }
+  

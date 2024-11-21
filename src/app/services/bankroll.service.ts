@@ -16,7 +16,7 @@ export class BankrollService {
     return this.http.get<Bankroll[]>(this.apiUrl);
   }
 
-  getBankroll(id: number): Observable<Bankroll> {
+  getBankrollById(id: number): Observable<Bankroll> {
     return this.http.get<Bankroll>(`${this.apiUrl}/${id}`);
   }
 

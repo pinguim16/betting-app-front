@@ -1,52 +1,43 @@
-<p-card header="Novo Bankroll">
-    <form (ngSubmit)="createBankroll()" #bankrollForm="ngForm">
-      <div class="p-fluid">
-        <!-- Nome -->
-        <div class="p-field">
-          <label for="name">Nome</label>
-          <input
-            id="name"
-            type="text"
-            pInputText
-            [(ngModel)]="bankroll.name"
-            name="name"
-            required
-          />
-        </div>
-  
-        <!-- Total -->
-        <div class="p-field">
-          <label for="total">Total</label>
-          <p-inputNumber
-            id="total"
-            [(ngModel)]="bankroll.total"
-            name="total"
-            mode="currency"
-            currency="USD"
-            [minFractionDigits]="2"
-            required
-          ></p-inputNumber>
-        </div>
-  
-        <!-- Botões -->
-        <div class="p-field">
-          <button
-            type="submit"
-            pButton
-            label="Salvar"
-            icon="pi pi-check"
-            class="p-button-success"
-          ></button>
-          <button
-            type="button"
-            pButton
-            label="Cancelar"
-            icon="pi pi-times"
-            class="p-button-secondary"
-            (click)="goBack()"
-          ></button>
-        </div>
+<p-toast></p-toast>
+<p-card>
+  <ng-template pTemplate="header">
+    <div class="form-header">
+      <h2 class="p-m-0">Novo Bankroll</h2>
+    </div>
+  </ng-template>
+
+  <form #bankrollForm="ngForm" class="p-fluid">
+    <!-- Nome -->
+    <div class="p-field p-grid">
+      <label for="name" class="p-col-12 p-md-2">Nome</label>
+      <div class="p-col-12 p-md-10">
+        <input id="name" type="text" pInputText [(ngModel)]="bankroll.name" name="name" required #name="ngModel"
+          [ngClass]="{ 'ng-dirty': name.invalid && name.touched }" />
+        <small *ngIf="name.invalid && name.touched" class="p-error">
+          Nome é obrigatório.
+        </small>
       </div>
-    </form>
-  </p-card>
-  
+    </div>
+
+    <!-- Total -->
+    <div class="p-field p-grid">
+      <label for="total" class="p-col-12 p-md-2">Total</label>
+      <div class="p-col-12 p-md-10">
+        <p-inputNumber id="total" [(ngModel)]="bankroll.total" name="total" mode="currency" currency="BRL"
+          [minFractionDigits]="2" required #total="ngModel"
+          [ngClass]="{ 'ng-dirty': total.invalid && total.touched }"></p-inputNumber>
+        <small *ngIf="total.invalid && total.touched" class="p-error">
+          Total é obrigatório.
+        </small>
+      </div>
+    </div>
+
+    <!-- Botões -->
+    <div class="button-container">
+      <p-button label="Salvar" icon="pi pi-check" class="p-button-sm p-button-success" severity="success"
+        (click)="createBankroll()" [disabled]="bankrollForm.invalid"></p-button>
+      <p-button label="Cancelar" icon="pi pi-times" class="p-button-sm p-button-secondary ml-2" severity="danger"
+        (click)="goBack()"></p-button>
+    </div>
+  </form>
+</p-card>

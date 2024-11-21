@@ -1,38 +1,51 @@
-<p-card header="Editar Unit">
-    <form (ngSubmit)="updateUnit()" #unitForm="ngForm">
-      <div class="p-fluid">
-        <!-- Valor -->
-        <div class="p-field">
-          <label for="value">Valor</label>
-          <p-inputNumber
-            id="value"
-            [(ngModel)]="unit.value"
-            name="value"
-            mode="decimal"
-            [minFractionDigits]="2"
-            required
-          ></p-inputNumber>
-        </div>
-  
-        <!-- Botões -->
-        <div class="p-field">
-          <button
-            type="submit"
-            pButton
-            label="Atualizar"
-            icon="pi pi-check"
-            class="p-button-success"
-          ></button>
-          <button
-            type="button"
-            pButton
-            label="Cancelar"
-            icon="pi pi-times"
-            class="p-button-secondary"
-            (click)="goBack()"
-          ></button>
-        </div>
+<!-- unit-edit.component.html -->
+<p-toast></p-toast>
+<p-card>
+  <ng-template pTemplate="header">
+    <div class="form-header">
+      <h2 class="p-m-0">Editar Unit</h2>
+    </div>
+  </ng-template>
+
+  <form #unitForm="ngForm" class="p-fluid" (ngSubmit)="updateUnit()">
+    <!-- Valor -->
+    <div class="p-field p-grid">
+      <label for="value" class="p-col-12 p-md-2">Valor</label>
+      <div class="p-col-12 p-md-10">
+        <p-inputNumber
+          id="value"
+          [(ngModel)]="unit.value"
+          name="value"
+          mode="decimal"
+          [minFractionDigits]="2"
+          required
+          #value="ngModel"
+          [ngClass]="{ 'ng-dirty': value.invalid && value.touched }"
+        ></p-inputNumber>
+        <small *ngIf="value.invalid && value.touched" class="p-error">
+          Valor é obrigatório e deve ser maior que zero.
+        </small>
       </div>
-    </form>
-  </p-card>
-  
+    </div>
+
+    <!-- Botões -->
+    <div class="button-container">
+      <p-button
+        label="Atualizar"
+        icon="pi pi-check"
+        class="p-button-sm p-button-success"
+        severity="success"
+        type="submit"
+        [disabled]="unitForm.invalid"
+      ></p-button>
+      <p-button
+        label="Cancelar"
+        icon="pi pi-times"
+        class="p-button-sm p-button-secondary ml-2"
+        severity="danger"
+        type="button"
+        (click)="goBack()"
+      ></p-button>
+    </div>
+  </form>
+</p-card>

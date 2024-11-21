@@ -132,7 +132,7 @@ export class TipsterListComponent implements OnInit {
       tipster.id,
       tipster.name,
       tipster.bingos,
-      tipster.sport.name,
+      tipster.sport?.name,
     ]);
 
     const csvContent =

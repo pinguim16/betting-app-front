@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UnitService } from '../../services/unit.service';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { Table, TableModule } from 'primeng/table';
 import { CommonModule, CurrencyPipe } from '@angular/common';
@@ -37,15 +37,18 @@ export class UnitListComponent implements OnInit {
 
   units: Unit[] = [];
   loading: boolean = true;
+  tipsterId: number = 0;
 
   constructor(
     private unitService: UnitService,
     private router: Router,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
+    this.tipsterId = Number(this.route.snapshot.paramMap.get('tipsterId'));
     this.getUnits();
   }
 
@@ -53,7 +56,7 @@ export class UnitListComponent implements OnInit {
    * Busca a lista de units do backend.
    */
   getUnits(): void {
-    this.unitService.getUnits().subscribe({
+    this.unitService.getUnitsByTipster(this.tipsterId).subscribe({
       next: (units) => {
         this.units = units;
         this.loading = false;
@@ -74,7 +77,7 @@ export class UnitListComponent implements OnInit {
    * Navega para a página de criação de uma nova unit.
    */
   createUnit(): void {
-    this.router.navigate(['/units/create']);
+    this.router.navigate(['/units/create', this.tipsterId]);
   }
 
   /**
@@ -161,6 +164,6 @@ export class UnitListComponent implements OnInit {
    * Navega para a página anterior.
    */
   goBack(): void {
-    this.router.navigate(['../']); // Ajuste conforme a estrutura de rotas
+    this.router.navigate(['/tipsters']); // Ajuste conforme a estrutura de rotas
   }
 }

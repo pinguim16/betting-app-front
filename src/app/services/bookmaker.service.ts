@@ -16,7 +16,7 @@ export class BookmakerService {
     return this.http.get<Bookmaker[]>(this.apiUrl);
   }
 
-  getBookmaker(id: number): Observable<Bookmaker> {
+  getBookmakerById(id: number): Observable<Bookmaker> {
     return this.http.get<Bookmaker>(`${this.apiUrl}/${id}`);
   }
 

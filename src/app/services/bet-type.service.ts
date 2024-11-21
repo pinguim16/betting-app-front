@@ -16,7 +16,7 @@ export class BetTypeService {
     return this.http.get<BetType[]>(this.apiUrl);
   }
 
-  getBetType(id: number): Observable<BetType> {
+  getBetTypeById(id: number): Observable<BetType> {
     return this.http.get<BetType>(`${this.apiUrl}/${id}`);
   }
 

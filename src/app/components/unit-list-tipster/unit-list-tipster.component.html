@@ -1,32 +1,107 @@
-<p-table #dt1 [value]="filteredUnits" dataKey="id" [globalFilterFields]="['unit.tipster.name']">
-
+<!-- unit-list.component.html -->
+<p-toast></p-toast>
+<p-card>
   <ng-template pTemplate="header">
+    <div class="header-container">
+      <h2 class="p-m-0">Lista de Units</h2>
+      <!-- Botão para criar nova Unit -->
+      <p-button
+        label="Nova Unit"
+        icon="pi pi-plus"
+        class="p-button-success"
+        routerLink="/units/create"
+        styleClass="ml-auto"
+      ></p-button>
+    </div>
+  </ng-template>
 
-    <tr>
-      <th>ID</th>
-      <th>Valor da Unidade</th>
-      <th style="min-width:15rem">
-        <div class="flex align-items-center">
-          <div class="flex align-items-center">
-            Tipster
-            <p-multiSelect [(ngModel)]="selectedTipsters" [options]="tipsters" optionLabel="name" optionValue="name"
-              placeholder="Any" (onChange)="applyFilter()" [appendTo]="'body'">
+  <div class="p-fluid">
+    <!-- Filtros -->
+    <div class="p-grid p-nogutter p-align-center p-justify-between">
+      <!-- Container Flexível para Filtro Tipster e Botão de Reset -->
+      <div class="p-field p-col-12 p-md-8">
+        <div class="filter-container">
+          <!-- Filtro Tipster -->
+          <div class="filter-item">
+            <label for="tipsterFilter" class="filter-label">Filtrar por Tipster</label>
+            <p-multiSelect
+              id="tipsterFilter"
+              [(ngModel)]="selectedTipsters"
+              [options]="tipsters"
+              optionLabel="name"
+              optionValue="name"
+              placeholder="Qualquer"
+              (onChange)="applyFilter()"
+              [showHeader]="false"
+              [appendTo]="'body'"
+              class="filter-select"
+            >
               <ng-template let-option pTemplate="item">
-                <div class="inline-block vertical-align-middle">
-                  <span class="ml-1 mt-1">{{ option.name }}</span>
+                <div class="unit-item">
+                  <span>{{ option.name }}</span>
                 </div>
               </ng-template>
             </p-multiSelect>
           </div>
+          <!-- Botão de Resetar Filtros -->
+          <div class="filter-item">
+            <p-button
+              label="Resetar Filtros"
+              icon="pi pi-filter-slash"
+              class="p-button-secondary"
+              (click)="resetFilters()"
+            ></p-button>
+          </div>
         </div>
-      </th>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-unit>
-    <tr>
-      <td>{{ unit.id }}</td>
-      <td>{{ unit.value }}</td>
-      <td>{{ unit.tipster.name }}</td>
-    </tr>
-  </ng-template>
-</p-table>
+      </div>
+    </div>
+
+    <!-- Tabela de Units -->
+    <p-table
+      #dt1
+      [value]="filteredUnits"
+      dataKey="id"
+      [globalFilterFields]="['tipster.name']"
+      [paginator]="true"
+      [rows]="10"
+      [rowsPerPageOptions]="[5,10,20]"
+      [responsive]="true"
+      [loading]="loading"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>ID</th>
+          <th>Valor da Unidade</th>
+          <th>Tipster</th>
+          <th>Ações</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-unit>
+        <tr>
+          <td>{{ unit.id }}</td>
+          <td>{{ unit.value | currency:'BRL':'symbol':'1.2-2' }}</td>
+          <td>{{ unit.tipster.name }}</td>
+          <td>
+            <p-button
+              icon="pi pi-trash"
+              class="p-button-rounded p-button-danger"
+              (click)="confirmDelete(unit.id)"
+              tooltip="Excluir Unit"
+              tooltipPosition="top"
+            ></p-button>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="4">Nenhuma Unit encontrada.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+    <!-- Diálogo de Confirmação de Exclusão -->
+    <p-confirmDialog header="Confirmação" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+  </div>
+</p-card>

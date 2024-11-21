@@ -19,7 +19,7 @@ export class UnitService {
     return this.http.get<Unit[]>(`${this.apiUrl}/tipster/${tipsterId}`);
   }
 
-  getUnit(id: number): Observable<Unit> {
+  getUnitById(id: number): Observable<Unit> {
     return this.http.get<Unit>(`${this.apiUrl}/${id}`);
   }
 

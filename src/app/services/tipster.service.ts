@@ -15,7 +15,7 @@ export class TipsterService {
     return this.http.get<Tipster[]>(this.apiUrl);
   }
 
-  getTipster(id: number): Observable<Tipster> {
+  getTipsterById(id: number): Observable<Tipster> {
     return this.http.get<Tipster>(`${this.apiUrl}/${id}`);
   }
 

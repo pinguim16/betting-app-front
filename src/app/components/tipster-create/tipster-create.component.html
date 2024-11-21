@@ -1,66 +1,93 @@
-<p-card header="Novo Tipster">
-    <form (ngSubmit)="createTipster()" #tipsterForm="ngForm">
-      <div class="p-fluid">
-        <!-- Nome -->
-        <div class="p-field">
-          <label for="name">Nome</label>
-          <input
-            id="name"
-            type="text"
-            pInputText
-            [(ngModel)]="tipster.name"
-            name="name"
-            required
-          />
-        </div>
-  
-        <!-- Bingos -->
-        <div class="p-field">
-          <label for="bingos">Bingos</label>
-          <input
-            id="bingos"
-            type="number"
-            pInputText
-            [(ngModel)]="tipster.bingos"
-            name="bingos"
-            step="0.01"
-            required
-          />
-        </div>
-  
-        <!-- Sport -->
-        <div class="p-field">
-          <label for="sport">Esporte</label>
-          <p-dropdown
-            id="sport"
-            [options]="sports"
-            [(ngModel)]="tipster.sport"
-            name="sport"
-            optionLabel="name"
-            placeholder="Selecione um Esporte"
-            required
-          ></p-dropdown>
-        </div>
-  
-        <!-- Botões -->
-        <div class="p-field">
-          <button
-            type="submit"
-            pButton
-            label="Salvar"
-            icon="pi pi-check"
-            class="p-button-success"
-          ></button>
-          <button
-            type="button"
-            pButton
-            label="Cancelar"
-            icon="pi pi-times"
-            class="p-button-secondary"
-            (click)="goBack()"
-          ></button>
-        </div>
+<!-- tipster-create.component.html -->
+<p-toast></p-toast>
+<p-card>
+  <ng-template pTemplate="header">
+    <div class="form-header">
+      <h2 class="p-m-0">Novo Tipster</h2>
+    </div>
+  </ng-template>
+
+  <form #tipsterForm="ngForm" class="p-fluid" (ngSubmit)="createTipster()">
+    <!-- Nome -->
+    <div class="p-field p-grid">
+      <label for="name" class="p-col-12 p-md-2">Nome</label>
+      <div class="p-col-12 p-md-10">
+        <input
+          id="name"
+          type="text"
+          pInputText
+          [(ngModel)]="tipster.name"
+          name="name"
+          required
+          #name="ngModel"
+          [ngClass]="{ 'ng-dirty': name.invalid && name.touched }"
+        />
+        <small *ngIf="name.invalid && name.touched" class="p-error">
+          Nome é obrigatório.
+        </small>
       </div>
-    </form>
-  </p-card>
-  
+    </div>
+
+    <!-- Bingos -->
+    <div class="p-field p-grid">
+      <label for="bingos" class="p-col-12 p-md-2">Bingos</label>
+      <div class="p-col-12 p-md-10">
+        <input
+          id="bingos"
+          type="number"
+          pInputText
+          [(ngModel)]="tipster.bingos"
+          name="bingos"
+          step="0.01"
+          required
+          #bingos="ngModel"
+          [ngClass]="{ 'ng-dirty': bingos.invalid && bingos.touched }"
+        />
+        <small *ngIf="bingos.invalid && bingos.touched" class="p-error">
+          Bingos é obrigatório e deve ser um número válido.
+        </small>
+      </div>
+    </div>
+
+    <!-- Esporte -->
+    <div class="p-field p-grid">
+      <label for="sport" class="p-col-12 p-md-2">Esporte</label>
+      <div class="p-col-12 p-md-10">
+        <p-dropdown
+          id="sport"
+          [options]="sports"
+          [(ngModel)]="tipster.sport"
+          name="sport"
+          optionLabel="name"
+          placeholder="Selecione um Esporte"
+          required
+          #sport="ngModel"
+          [ngClass]="{ 'ng-dirty': sport.invalid && sport.touched }"
+        ></p-dropdown>
+        <small *ngIf="sport.invalid && sport.touched" class="p-error">
+          Esporte é obrigatório.
+        </small>
+      </div>
+    </div>
+
+    <!-- Botões -->
+    <div class="button-container">
+      <p-button
+        label="Salvar"
+        icon="pi pi-save"
+        class="p-button-sm p-button-success"
+        severity="success"
+        type="submit"
+        [disabled]="tipsterForm.invalid"
+      ></p-button>
+      <p-button
+        label="Cancelar"
+        icon="pi pi-times"
+        class="p-button-sm p-button-secondary ml-2"
+        severity="danger"
+        type="button"
+        (click)="goBack()"
+      ></p-button>
+    </div>
+  </form>
+</p-card>

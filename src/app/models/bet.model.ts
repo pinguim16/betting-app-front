@@ -85,8 +85,8 @@ export interface Tipster {
   id: number;
   name: string;
   bingos: number;
-  sport: Sport; // Relacionamento Many-to-One com Sport
-  units: Unit[]; // Relacionamento One-to-Many com Unit
+  sport: Sport | null; // Relacionamento Many-to-One com Sport
+  units?: Unit[]; // Relacionamento One-to-Many com Unit
 }
 
 //Pronto

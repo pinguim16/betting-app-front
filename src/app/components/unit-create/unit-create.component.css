@@ -1,0 +1,39 @@
+/* unit-create.component.css */
+
+.form-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .button-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Alinha os botões à direita */
+    margin-top: 1rem;
+  }
+  
+  .p-button {
+    margin-right: 0.5rem;
+  }
+  
+  .p-button:last-child {
+    margin-right: 0;
+  }
+  
+  .ml-2 {
+    margin-left: 0.5rem;
+  }
+  
+  .p-m-0 {
+    margin: 0;
+  }
+  
+  .p-mb-2 {
+    margin-bottom: 0.5rem;
+  }
+  
+  .ng-dirty {
+    border: 1px solid red;
+  }
+  

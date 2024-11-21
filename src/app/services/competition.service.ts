@@ -16,7 +16,7 @@ export class CompetitionService {
     return this.http.get<Competition[]>(this.apiUrl);
   }
 
-  getCompetition(id: number): Observable<Competition> {
+  getCompetitionById(id: number): Observable<Competition> {
     return this.http.get<Competition>(`${this.apiUrl}/${id}`);
   }
 
