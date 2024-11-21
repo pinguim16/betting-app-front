@@ -1,29 +1,116 @@
-<p-button label="Nova Aposta" icon="pi pi-plus" class="p-button-success mb-3" (click)="createBet()"></p-button>
-
-<p-table [value]="bets">
+<p-card>
   <ng-template pTemplate="header">
-    <tr>
-      <th>ID</th>
-      <th>Data</th>
-      <th>Tipster</th>
-      <th>Esporte</th>
-      <th>Odds</th>
-      <th>Stake</th>
-      <th>Ações</th>
-    </tr>
+    <div class="table-header">
+      <h2 class="p-m-0">Lista de Apostas</h2>
+      <div>
+        <p-button
+          label="Exportar"
+          icon="pi pi-file-excel"
+          class="p-button-help mr-2"
+          severity="info"
+          (click)="exportExcel()"
+        ></p-button>
+        <p-button
+          label="Nova Aposta"
+          icon="pi pi-plus"
+          class="p-button-success"
+          severity="success"
+          (click)="createBet()"
+        ></p-button>
+      </div>
+    </div>
   </ng-template>
-  <ng-template pTemplate="body" let-bet>
-    <tr>
-      <td>{{ bet.id }}</td>
-      <td>{{ bet.date | date: 'short' }}</td>
-      <td>{{ bet.tipster.name }}</td>
-      <td>{{ bet.sport.name }}</td>
-      <td>{{ bet.odds }}</td>
-      <td>{{ bet.stake }}</td>
-      <td>
-        <p-button icon="pi pi-pencil" class="p-button-rounded p-button-warning mr-2" (click)="editBet(bet.id!)"></p-button>
-        <p-button icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="deleteBet(bet.id!)"></p-button>
-      </td>
-    </tr>
-  </ng-template>
-</p-table>
+
+  <div class="p-grid p-align-center p-mb-2">
+    <div class="p-col-12 p-md-6">
+      <input
+        pInputText
+        type="text"
+        (input)="onGlobalFilter($event)"
+        placeholder="Buscar..."
+        aria-label="Campo de busca"
+      />
+    </div>
+  </div>
+
+  <p-table
+    #dt
+    [value]="bets"
+    [paginator]="true"
+    [rows]="10"
+    [loading]="loading"
+    [rowsPerPageOptions]="[5, 10, 20]"
+    [rowHover]="true"
+    responsiveLayout="scroll"
+    styleClass="p-datatable-sm"
+    [globalFilterFields]="['id', 'date', 'tipster.name', 'sport.name', 'odds', 'stake']"
+  >
+    <!-- Cabeçalho da Tabela -->
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="id">
+          ID <p-sortIcon field="id"></p-sortIcon>
+        </th>
+        <th pSortableColumn="date">
+          Data <p-sortIcon field="date"></p-sortIcon>
+        </th>
+        <th pSortableColumn="tipster.name">
+          Tipster <p-sortIcon field="tipster.name"></p-sortIcon>
+        </th>
+        <th pSortableColumn="sport.name">
+          Esporte <p-sortIcon field="sport.name"></p-sortIcon>
+        </th>
+        <th pSortableColumn="odds">
+          Odds <p-sortIcon field="odds"></p-sortIcon>
+        </th>
+        <th pSortableColumn="stake">
+          Stake <p-sortIcon field="stake"></p-sortIcon>
+        </th>
+        <th style="text-align: center;">Ações</th>
+      </tr>
+    </ng-template>
+
+    <!-- Corpo da Tabela -->
+    <ng-template pTemplate="body" let-bet>
+      <tr>
+        <td>{{ bet.id }}</td>
+        <td>{{ bet.date | date: 'short' }}</td>
+        <td>{{ bet.tipster.name }}</td>
+        <td>{{ bet.sport.name }}</td>
+        <td>{{ bet.odds | number: '1.2-2' }}</td>
+        <td>{{ bet.stake | currency: 'BRL':'symbol':'1.2-2' }}</td>
+        <td style="text-align: center;">
+          <p-button
+            icon="pi pi-pencil"
+            class="p-button-rounded p-button-warning mr-2"
+            severity="warning"
+            (click)="editBet(bet.id!)"
+            pTooltip="Editar Aposta"
+            tooltipPosition="top"
+          ></p-button>
+          <p-button
+            icon="pi pi-trash"
+            class="p-button-rounded p-button-danger"
+            severity="danger"
+            (click)="confirmDelete(bet.id!)"
+            pTooltip="Excluir Aposta"
+            tooltipPosition="top"
+          ></p-button>
+        </td>
+      </tr>
+    </ng-template>
+
+    <!-- Mensagem de Tabela Vazia -->
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="7">
+          <div class="p-d-flex p-ai-center p-jc-center" style="height: 100px;">
+            <span>Nenhuma aposta encontrada.</span>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <p-confirmDialog></p-confirmDialog>
+</p-card>

@@ -1,29 +1,117 @@
-<p-button label="Novo Tipster" icon="pi pi-plus" class="p-button-success mb-3" (click)="createTipster()"></p-button>
-
-<p-table [value]="tipsters">
+<p-card>
     <ng-template pTemplate="header">
-        <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Bingos</th>
-            <th>Esporte</th>
-            <th>Ações</th>
-        </tr>
+      <div class="table-header">
+        <h2 class="p-m-0">Lista de Tipsters</h2>
+        <div>
+          <p-button
+            label="Exportar"
+            icon="pi pi-file-excel"
+            class="p-button-help mr-2"
+            severity="info"
+            (click)="exportExcel()"
+          ></p-button>
+          <p-button
+            label="Novo Tipster"
+            icon="pi pi-plus"
+            class="p-button-success"
+            severity="success"
+            (click)="createTipster()"
+          ></p-button>
+        </div>
+      </div>
     </ng-template>
-    <ng-template pTemplate="body" let-tipster>
+  
+    <div class="p-grid p-align-center p-mb-2">
+      <div class="p-col-12 p-md-6">
+        <input
+          pInputText
+          type="text"
+          (input)="onGlobalFilter($event)"
+          placeholder="Buscar..."
+          aria-label="Campo de busca"
+        />
+      </div>
+    </div>
+  
+    <p-table
+      #dt
+      [value]="tipsters"
+      [paginator]="true"
+      [rows]="10"
+      [loading]="loading"
+      [rowsPerPageOptions]="[5, 10, 20]"
+      [rowHover]="true"
+      responsiveLayout="scroll"
+      styleClass="p-datatable-sm"
+      [globalFilterFields]="['id', 'name', 'bingos', 'sport.name']"
+    >
+      <!-- Cabeçalho da Tabela -->
+      <ng-template pTemplate="header">
         <tr>
-            <td>{{ tipster.id }}</td>
-            <td>{{ tipster.name }}</td>
-            <td>{{ tipster.bingos }}</td>
-            <td>{{ tipster.sport.name }}</td>
-            <td>
-                <p-button icon="pi pi-pencil" class="p-button-rounded p-button-warning mr-2"
-                    (click)="editTipster(tipster.id)"></p-button>
-                <p-button icon="pi pi-trash" class="p-button-rounded p-button-danger"
-                    (click)="deleteTipster(tipster.id)"></p-button>
-                <p-button icon="pi pi-folder-open" class="p-button-rounded p-button-info mr-2"
-                    (click)="viewUnits(tipster.id)" tooltip="Ver Units" tooltipPosition="top"></p-button>
-            </td>
+          <th pSortableColumn="id">
+            ID <p-sortIcon field="id"></p-sortIcon>
+          </th>
+          <th pSortableColumn="name">
+            Nome <p-sortIcon field="name"></p-sortIcon>
+          </th>
+          <th pSortableColumn="bingos">
+            Bingos <p-sortIcon field="bingos"></p-sortIcon>
+          </th>
+          <th pSortableColumn="sport.name">
+            Esporte <p-sortIcon field="sport.name"></p-sortIcon>
+          </th>
+          <th style="text-align: center;">Ações</th>
         </tr>
-    </ng-template>
-</p-table>
+      </ng-template>
+  
+      <!-- Corpo da Tabela -->
+      <ng-template pTemplate="body" let-tipster>
+        <tr>
+          <td>{{ tipster.id }}</td>
+          <td>{{ tipster.name }}</td>
+          <td>{{ tipster.bingos }}</td>
+          <td>{{ tipster.sport.name }}</td>
+          <td style="text-align: center;">
+            <p-button
+              icon="pi pi-pencil"
+              class="p-button-rounded p-button-warning mr-2"
+              severity="warning"
+              (click)="editTipster(tipster.id!)"
+              pTooltip="Editar Tipster"
+              tooltipPosition="top"
+            ></p-button>
+            <p-button
+              icon="pi pi-trash"
+              class="p-button-rounded p-button-danger mr-2"
+              severity="danger"
+              (click)="confirmDelete(tipster.id!)"
+              pTooltip="Excluir Tipster"
+              tooltipPosition="top"
+            ></p-button>
+            <p-button
+              icon="pi pi-folder-open"
+              class="p-button-rounded p-button-info"
+              severity="info"
+              (click)="viewUnits(tipster.id!)"
+              pTooltip="Ver Units"
+              tooltipPosition="top"
+            ></p-button>
+          </td>
+        </tr>
+      </ng-template>
+  
+      <!-- Mensagem de Tabela Vazia -->
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="5">
+            <div class="p-d-flex p-ai-center p-jc-center" style="height: 100px;">
+              <span>Nenhum tipster encontrado.</span>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  
+    <p-confirmDialog></p-confirmDialog>
+  </p-card>
+  

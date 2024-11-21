@@ -22,6 +22,8 @@ export interface Bet {
   eachWay?: boolean;
   comment?: string;
   label?: string;
+  tipster?:Tipster;
+  sport?:Sport;
   // Remover profitLoss se não for necessário
 }
 
@@ -107,6 +109,7 @@ export interface Bankroll {
   name: string;
   total: number;
   bets?: Bet[]; // Opcional, dependendo das necessidades
+  date?: string; // para atualização
 }
 
 export interface DashboardMetrics {

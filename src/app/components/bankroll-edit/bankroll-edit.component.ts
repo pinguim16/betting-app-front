@@ -22,12 +22,14 @@ import { ButtonModule } from 'primeng/button';
     InputNumberModule,
     ButtonModule,
   ],
+  providers: [BankrollService],
 })
 export class BankrollEditComponent implements OnInit {
   bankroll: Bankroll = {
     id: 0,
     name: '',
     total: 0,
+    date: ''
   };
 
   constructor(
@@ -44,6 +46,8 @@ export class BankrollEditComponent implements OnInit {
   loadBankroll(id: number): void {
     this.bankrollService.getBankroll(id).subscribe((data) => {
       this.bankroll = data;
+      console.log(data)
+      console.log(this.bankroll)
     });
   }
 
