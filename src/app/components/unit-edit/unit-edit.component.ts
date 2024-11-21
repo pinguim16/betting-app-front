@@ -42,7 +42,7 @@ export class UnitEditComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private messageService: MessageService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.unitId = Number(this.route.snapshot.paramMap.get('id'));
@@ -93,8 +93,10 @@ export class UnitEditComponent implements OnInit {
           summary: 'Sucesso',
           detail: 'Unit atualizada com sucesso!',
         });
-        this.loading = false;
-        this.router.navigate(['/units', this.unit.tipster.id]); // Navega para a lista de Units após atualização
+        setTimeout(() => {
+          this.loading = false;
+          this.router.navigate(['/units', this.unit.tipster.id]); // Navega para a lista de Units após criação
+        }, 1000);
       },
       error: (err) => {
         this.messageService.add({

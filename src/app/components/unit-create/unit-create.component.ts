@@ -42,7 +42,7 @@ export class UnitCreateComponent implements OnInit {
     private router: Router,
     private messageService: MessageService,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.tipsterId = Number(this.route.snapshot.paramMap.get('tipsterId'));
@@ -71,25 +71,27 @@ export class UnitCreateComponent implements OnInit {
           summary: 'Sucesso',
           detail: 'Unit criada com sucesso!',
         });
-        this.loading = false;
-        this.router.navigate(['/units', this.tipsterId]); // Navega para a lista de Units após criação
-      },
-      error: (err) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Erro',
-          detail: 'Falha ao criar a Unit.',
-        });
-        this.loading = false;
-        console.error(err);
-      },
+        setTimeout(() => {
+          this.loading = false;
+          this.router.navigate(['/units', this.tipsterId]); // Navega para a lista de Units após criação
+      }, 1000);
+    },
+    error: (err) => {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Erro',
+        detail: 'Falha ao criar a Unit.',
+      });
+      this.loading = false;
+      console.error(err);
+    },
     });
-  }
+}
 
-  /**
-   * Navega para a página anterior.
-   */
-  goBack(): void {
-    this.router.navigate(['/units', this.tipsterId]); // Ajuste conforme a estrutura de rotas
-  }
+/**
+ * Navega para a página anterior.
+ */
+goBack(): void {
+  this.router.navigate(['/units', this.tipsterId]); // Ajuste conforme a estrutura de rotas
+}
 }
